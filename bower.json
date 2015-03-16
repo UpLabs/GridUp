@@ -1,0 +1,27 @@
+{
+  "name": "GridUp",
+  "version": "0.1.0",
+  "homepage": "https://github.com/UpLabs/GridUp",
+  "authors": [
+    "Kevin Martin <kevin@neurs.com>"
+  ],
+  "description": "Extensible LESS Framework for Custom Grids and Breakpoints",
+  "keywords": [
+    "css",
+    "less",
+    "responsive",
+    "mobile-first",
+    "front-end",
+    "web",
+    "framework",
+    "gridup"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

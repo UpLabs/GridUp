@@ -1,0 +1,34 @@
+{
+  "name": "GridUp",
+  "version": "0.1.0",
+  "description": "Extensible LESS Framework for Custom Grids and Breakpoints",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UpLabs/GridUp.git"
+  },
+  "keywords": [
+    "less",
+    "grids",
+    "gridup",
+    "css",
+    "breakpoints"
+  ],
+  "private": true,
+  "author": "UpLabs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/UpLabs/GridUp/issues"
+  },
+  "homepage": "https://github.com/UpLabs/GridUp",
+  "dependencies": {
+    "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
+    "gulp-cssmin": "^0.1.6",
+    "gulp-less": "^3.0.1",
+    "gulp-replace": "^0.5.3"
+  }
+}

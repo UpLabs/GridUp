@@ -1,0 +1,78 @@
+//
+// Prefix Style for the first breakpoint
+//
+// Possible values:
+//  - `false`: No prefix (ie. `.col-*`)
+//  - `true`: Prefix ONLY  (ie. `.xs-col-*`)
+//  - `both`: Both prefix and no prefix  (ie. `.col-*, .xs-col-*`)
+//
+// Default: `false` - To minimize CSS footprint
+//
+@prefixFirst: true;
+
+//
+// Media Query Breakpoints
+//
+// Comma/Space separated list of breakpoint names and sizes, respectively
+//
+// Default:
+//  - `xs` = 0em (0px)
+//  - `sm` = 48em (768px)
+//  - `md` = 62em (992px)
+//  - `lg` = 75em (1200px)
+//
+@breakpoints: xs 0, sm 48em, md 62em, lg 75em;
+
+//
+// Amount of Columns in your Grid
+//
+// Default: `12`
+//
+@columns: 12;
+
+//
+// Spacing between columns
+//
+// Default: `3.2%`
+//
+@gutter: 3.2%;
+
+//
+// Enable .col-offset-* alignment
+//
+@enableOffsets: true;
+
+//
+// Enable .col-push-* alignment
+//
+@enablePull: true;
+
+//
+// Enable .col-pull-* alignment
+//
+@enablePush: true;
+
+//
+// Enable .text-* text alignment
+//
+@enableTextAlign: true;
+
+//
+// Enable .float-* text alignment
+//
+@enableFloats: true;
+
+//
+// Enable .show and .hide helpers
+//
+@enableDisplay: true;
+
+//
+// Enable .display-block, .display-inline, .display-inline-block helpers
+//
+@enableAdvancedDisplay: true;
+
+//
+// Enable .visible and .hidden helpers
+//
+@enableVisibility: true;

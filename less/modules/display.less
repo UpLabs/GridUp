@@ -1,0 +1,23 @@
+.do-display() when (@enableDisplay = true) {
+	&show {
+		display: initial !important;
+	}
+
+	&hide {
+		display: none !important;
+	}
+
+	& when (@enableAdvancedDisplay = true) {
+		&display-block {
+			display: block !important;
+		}
+
+		&display-inline {
+			display: inline !important;
+		}
+
+		&display-inline-block {
+			display: inline-block !important;
+		}
+	}
+}

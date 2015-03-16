@@ -1,0 +1,56 @@
+.breakpoint(@bp-name, @rules, @bp-index: 1) when (@bp-index <= length(@breakpoints)) {
+	@current: extract(@breakpoints, @bp-index);
+
+	& when (@bp-name = extract(@current, 1)) {
+		.breakpoint-helper(@bp-index, @rules);
+	}
+
+	.breakpoint(@bp-name, @rules, @bp-index + 1);
+}
+
+.breakpoint-helper(@bp-index, @rules) when (@bp-index <= length(@breakpoints)) {
+	@width: extract(extract(@breakpoints, @bp-index), 2);
+
+	& when (@width = 0) {
+		@rules();
+	}
+
+	& when (@width > 0) {
+		@media screen and (min-width: @width) {
+			@rules();
+		}
+	}
+}
+
+.breakpoint-prefixer(@bp-index, @rules) when (@bp-index <= length(@breakpoints)) {
+	@no-prefix: ~".";
+
+	& when (@bp-index > 1), (@prefixFirst = true), (@prefixFirst = both) {
+    	@bp-name: extract(extract(@breakpoints, @bp-index), 1);
+    	@prefix: ~".@{bp-name}-";
+
+    	& when (@bp-index > 1), (@prefixFirst = true) {
+			@{prefix} {
+				.breakpoint-helper(@bp-index, @rules);
+			}
+		}
+
+    	& when (@bp-index = 1) and (@prefixFirst = both) {
+			@{no-prefix},
+			@{prefix} {
+				.breakpoint-helper(@bp-index, @rules);
+			}
+		}
+	}
+
+	& when (@bp-index = 1) and (@prefixFirst = false) {
+		@{no-prefix} {
+			.breakpoint-helper(@bp-index, @rules);
+		}
+	}
+}
+
+.do-grids(@rules, @bp-index: 1) when (@bp-index <= length(@breakpoints)) {
+	.breakpoint-prefixer(@bp-index, @rules);
+	.do-grids(@rules, @bp-index + 1);
+}

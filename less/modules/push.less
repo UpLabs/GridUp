@@ -1,0 +1,13 @@
+.do-push() when (@enablePush = true) {
+	&col-push- {
+		.do-push-loop();
+	}
+}
+
+.do-push-loop(@index: 1) when (@index <= @columns) {
+	&@{index} {
+		left: calc(~"(100% / 12) *" @index);
+	}
+
+	.do-push-loop(@index + 1);
+}

@@ -1,0 +1,13 @@
+.do-pull() when (@enablePull = true) {
+	&col-pull- {
+		.do-pull-loop();
+	}
+}
+
+.do-pull-loop(@index: 1) when (@index <= @columns) {
+	&@{index} {
+		right: calc(~"(100% / 12) *" @index);
+	}
+
+	.do-pull-loop(@index + 1);
+}
