@@ -1,5 +1,5 @@
 /*!
- * GridUp v0.1.0 (https://github.com/UpLabs/GridUp)
+ * GridUp v0.1.1 (https://github.com/UpLabs/GridUp)
  * Copyright 2015 UpLabs, LLC.
  * Licensed under MIT (https://github.com/UpLabs/GridUp/blob/master/LICENSE)
  */
@@ -14,12 +14,12 @@
 [class*="col-"]:after {
   clear: both;
 }
-[class*="col-"] {
+[class*="col-"]:not(.col-group) {
   float: left;
   min-height: 1px;
   position: relative;
 }
-.gutter > [class*="col-"] {
+.gutter > [class*="col-"]:not(.col-group) {
   box-sizing: border-box;
   padding: 1.6%;
 }

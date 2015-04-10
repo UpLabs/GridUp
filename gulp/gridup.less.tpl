@@ -26,7 +26,7 @@
 	}
 }
 
-[class*="col-"] {
+[class*="col-"]:not(.col-group) {
 	float: left;
 	min-height: 1px;
 	position: relative;

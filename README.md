@@ -20,14 +20,6 @@ If you require any of the above, you might want to suck it up or use [Bootstrap]
 $ bower install gridup --save
 ```
 
-## Use the CDN
-
-```html
-<link href="https://maxcdn.com/gridup/build/gridup.css" .../>
-```
-
-The CDN also has a minified equivalent for production use called `gridup.min.css`
-
 ## Download the compiled source
 You can download the compiled source from [our GitHub Releases](https://github.com/UpLabs/GridUp/releases).
 
