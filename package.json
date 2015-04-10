@@ -1,6 +1,6 @@
 {
   "name": "GridUp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Extensible LESS Framework for Custom Grids and Breakpoints",
   "main": "index.js",
   "scripts": {

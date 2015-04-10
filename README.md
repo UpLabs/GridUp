@@ -39,7 +39,7 @@ You can download the compiled source from [our GitHub Releases](https://github.c
 @import bower_components/gridup/less/gridup.less;
 ```
 
-The above uses our [default configuration](https://github.com/UpLabs/GridUp/blob/master/config.less). With that, you have a complete set up and can start using your brand new grid system.
+The above uses our [default configuration](https://github.com/UpLabs/GridUp/blob/master/less/config.less). With that, you have a complete set up and can start using your brand new grid system.
 
 Why two files? Well, in case you want to add your own configuration instead! See below...
 
