@@ -7,10 +7,7 @@ var gulp	= require('gulp'),
 
 function compile(minify) {
 	return function () {
-		var stream = gulp.src([
-			'less/config.less',
-			'less/gridup.less',
-		]);
+		var stream = gulp.src('less/gridup.less');
 
 		stream = stream
 			.pipe(concat(minify ? 'gridup.min.css' : 'gridup.css'))
@@ -33,7 +30,7 @@ gulp.task('compile', ['compile:min', 'compile:max']);
 
 gulp.task('config.less', function () {
 	return gulp.src('gulp/config.less.tpl')
-		.pipe(replace('{{prefixFirst}}', process.env.PREFIX_FIRST || 'true'))
+		.pipe(replace('{{prefixFirst}}', process.env.PREFIX_FIRST || 'false'))
 		.pipe(replace('{{breakpoints}}', process.env.BREAKPOINTS || 'xs 0, sm 48em, md 62em, lg 75em'))
 		.pipe(replace('{{columns}}', process.env.COLUMNS || '12'))
 		.pipe(replace('{{gutter}}', process.env.GUTTER || '3.2%'))

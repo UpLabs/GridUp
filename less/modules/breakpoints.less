@@ -1,0 +1,51 @@
+.create-breakpoints(width, @breakpoints);
+.create-breakpoints(@metric, @breakpoints...) {
+	@plugin "plugins/bp-to-mq";
+
+	#-bp-private {
+		@queries: bp-to-mq(@breakpoints, @metric);
+		.create-mq(@queries);
+
+		.breakpoint-prefixer(@rules, @bp-index) when (@bp-index <= length(@breakpoints)) {
+			@no-prefix: ~".";
+			@bp-name: extract(extract(@breakpoints, @bp-index), 1);
+
+			& when (@bp-index > 1), (@prefixFirst = true), (@prefixFirst = both) {
+		    	@prefix: ~".@{bp-name}-";
+
+		    	& when (@bp-index > 1), (@prefixFirst = true) {
+					@{prefix} {
+						.breakpoint(@bp-name, @rules);
+					}
+				}
+
+		    	& when (@bp-index = 1) and (@prefixFirst = both) {
+					@{no-prefix},
+					@{prefix} {
+						.breakpoint(@bp-name, @rules);
+					}
+				}
+			}
+
+			& when (@bp-index = 1) and (@prefixFirst = false) {
+				@{no-prefix} {
+					.breakpoint(@bp-name, @rules);
+				}
+			}
+		}
+	}
+
+	.breakpoint(@bp-names, @rules) {
+		@first-bp: extract(@breakpoints, 1);
+		@first-bp-name: extract(@first-bp, 1);
+		@first-bp-value: extract(@first-bp, 2);
+
+		& when (@bp-names = @first-bp-name) and (@first-bp-value = 0) {
+			@rules();
+		}
+
+		& when not (@bp-names = @first-bp-name), (@first-bp-value > 0) {
+			#-bp-private > .mq(@bp-names, @rules);
+		}
+	}
+}

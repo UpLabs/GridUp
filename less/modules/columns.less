@@ -1,13 +1,15 @@
 .do-columns() {
+	#-columns-private {
+		.do-columns-loop(@index: 1) when (@index >= 1) and (@index <= @columns) {
+			&@{index} {
+				width: calc(~"(100% / @{columns}) * @{index}");
+			}
+
+			.do-columns-loop((@index + 1));
+		}
+	}
+
 	&col- {
-		.do-columns-loop();
+		#-columns-private > .do-columns-loop();
 	}
-}
-
-.do-columns-loop(@index: 1) when (@index <= @columns) {
-	&@{index} {
-		width: calc(~"(100% / 12) *" @index);
-	}
-
-	.do-columns-loop(@index + 1);
 }

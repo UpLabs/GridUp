@@ -1,6 +1,6 @@
 {
   "name": "GridUp",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Extensible LESS Framework for Custom Grids and Breakpoints",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,7 @@
     "gulp": "^3.8.11",
     "gulp-concat": "^2.5.2",
     "gulp-cssmin": "^0.1.6",
-    "gulp-less": "^3.0.1",
+    "gulp-less": "^3.0.3",
     "gulp-replace": "^0.5.3"
   }
 }

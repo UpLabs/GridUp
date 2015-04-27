@@ -1,13 +1,29 @@
 .do-offsets() when (@enableOffsets = true) {
+	#-offsets-private {
+		.do-offset-loop() {
+			&0 {
+				margin-left: 0;
+			}
+
+			.do-offset-loop(1);
+		}
+
+		.do-offset-loop(@index) when (@index >= 1) and (@index < @columns) {
+			&@{index} {
+				margin-left: calc(~"(100% / @{columns}) * @{index}");
+			}
+
+			.do-offset-loop((@index + 1));
+		}
+
+		.do-offset-loop(@index) when (@index = @columns) {
+			&@{index} {
+				margin-left: 100%;
+			}
+		}
+	}
+
 	&col-offset- {
-		.do-offset-loop();
+		#-offsets-private > .do-offset-loop();
 	}
-}
-
-.do-offset-loop(@index: 1) when (@index < @columns) {
-	&@{index} {
-		margin-left: calc(~"(100% / 12) *" @index);
-	}
-
-	.do-offset-loop(@index + 1);
 }

@@ -1,13 +1,29 @@
 .do-push() when (@enablePush = true) {
+	#-push-private {
+		.do-push-loop() {
+			&0 {
+				left: 0;
+			}
+
+			.do-push-loop(1);
+		}
+
+		.do-push-loop(@index) when (@index >= 1) and (@index < @columns) {
+			&@{index} {
+				left: calc(~"(100% / @{columns}) * @{index}");
+			}
+
+			.do-push-loop((@index + 1));
+		}
+
+		.do-push-loop(@index) when (@index = @columns) {
+			&@{index} {
+				left: 100%;
+			}
+		}
+	}
+
 	&col-push- {
-		.do-push-loop();
+		#-push-private > .do-push-loop();
 	}
-}
-
-.do-push-loop(@index: 1) when (@index <= @columns) {
-	&@{index} {
-		left: calc(~"(100% / 12) *" @index);
-	}
-
-	.do-push-loop(@index + 1);
 }

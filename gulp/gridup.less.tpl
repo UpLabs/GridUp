@@ -4,6 +4,9 @@
  * Licensed under MIT (https://github.com/UpLabs/GridUp/blob/master/LICENSE)
  */
 
+@import "config.less";
+@import "modules/media-queries.less";
+@import "modules/breakpoints.less";
 @import "modules/columns.less";
 @import "modules/display.less";
 @import "modules/floats.less";

@@ -1,0 +1,38 @@
+.create-mq(@queries...) {
+	#-mq-private {
+		@queries-length: length(@queries);
+
+		.mq-get-index(@key, @rules, @index: 1) when (@index >= 1) and (@index < @queries-length) {
+			@current: extract(@queries, @index);
+			@current-name: extract(@current, 1);
+
+			& when (@key = @current-name) {
+				@current-value: extract(@current, 2);
+
+				@media @current-value {
+					@rules();
+				}
+			}
+
+			& when not (@key = @current-name) {
+				.mq-get-index(@key, @rules, (@index + 1));
+			}
+		}
+
+		.mq-loop(@keys, @keys-length, @rules, @index: 1) when (@index >= 1) and (@index < @queries-length) {
+			& when (@index < @keys-length) {
+				.mq-get-index(extract(@keys, @index), {
+					.mq-loop(@keys, @keys-length, @rules, (@index + 1));
+				});
+			}
+
+			& when (@index = @keys-length) {
+				.mq-get-index(extract(@keys, @index), @rules);
+			}
+		}
+	}
+
+	.mq(@keys, @rules) {
+		#-mq-private > .mq-loop(@keys, length(@keys), @rules);
+	}
+}

@@ -3,14 +3,18 @@ Extensible LESS Framework for Custom Grids and Breakpoints
 
 ## What GridUp is
 * GridUp is a LESS Framework.
+* GridUp allows you to specify complex Media Queries without having to remember them.
 * GridUp allows you to easily create and use custom breakpoints.
 * GridUp allows you to adjust how many columns you want to use.
+* GridUp provides an initial set of modules to help you across your breakpoints.
 
 ## What GridUp is not
 * GridUp is not a library for creating buttons, styling forms, or designing navbars.
 * GridUp is not a complete solution. This project was started to provide you a customizable and extensible base for your grids with helpers that intertwine with your grids.
 
-If you require any of the above, you might want to suck it up or use [Bootstrap](https://github.com/twbs/bootstrap).
+# Requirements
+
+GridUp requires only *one* thing: LESS 2.5.0+
 
 # Getting started
 
@@ -27,13 +31,10 @@ You can download the compiled source from [our GitHub Releases](https://github.c
 
 ## Import with LESS
 ```less
-@import bower_components/gridup/less/config.less;
 @import bower_components/gridup/less/gridup.less;
 ```
 
 The above uses our [default configuration](https://github.com/UpLabs/GridUp/blob/master/less/config.less). With that, you have a complete set up and can start using your brand new grid system.
-
-Why two files? Well, in case you want to add your own configuration instead! See below...
 
 # Configuration
 
@@ -217,10 +218,10 @@ Each module can be enabled/disabled to make sure GridUp leaves a minimal footpri
 ```
 
 ```html
-<a href="#" class="display-block md-display-inline-block lg-display-inline">A trans-display link</a>
+<a href="#" class="display-block sm-display-table md-display-inline-block lg-display-inline">A trans-display link</a>
 ```
 
-> On small screens, appear with `display: block;`. On medium screens, appear with `display: inline-block;`. On larger screens, appear with `display: inline;`.
+> On really small screens, appear with `display: block;`. On small screens, appear with `display: table;`. On medium screens, appear with `display: inline-block;`. On larger screens, appear with `display: inline;`.
 
 ## Visibility
 
@@ -237,7 +238,136 @@ Each module can be enabled/disabled to make sure GridUp leaves a minimal footpri
 
 # Helpers
 
-## Breakpoint Media Query
+## Media Queries (via `.mq()` mixin)
+
+```less
+// Option 1: Assign variable then call `.create-mq()`
+@media-queries:
+	screen screen,
+	only-screen "only screen",
+	portrait "(orientation: portrait)",
+	landscape "(orientation: landscape)",
+	iphone6 "(min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)",
+	iphone6plus "(min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3)",
+	ipad "(min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2)",
+	desktop "(min-device-width: 1200px) and (max-device-width: 1600px)"
+
+.create-mq(@media-queries);
+
+// Option 2: Call `.create-mq()` with options within it.
+.create-mq(
+	screen screen,
+	only-screen "only screen",
+	portrait "(orientation: portrait)",
+	landscape "(orientation: landscape)",
+	iphone6 "(min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)",
+	iphone6plus "(min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3)",
+	ipad "(min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2)",
+	desktop "(min-device-width: 1200px) and (max-device-width: 1600px)"
+);
+```
+
+The `.create-mq()` function sets up the `.mq()` function with your media queries. It should only be called once (per scope).
+
+### Sample Usage
+
+```less
+.create-mq(
+	screen screen,
+	only-screen "only screen"
+	portrait "(orientation: portrait)",
+	landscape "(orientation: landscape)"
+);
+
+.mq(screen, {
+	.hello {
+		content: "screen!";
+	}
+});
+
+.mq(screen, portrait; {
+	.hello {
+		content: "screen and portrait!";
+	}
+});
+
+.hello {
+	.mq(only-screen, landscape; {
+		content: "only screen and landscape!";
+	});
+}
+
+// Output:
+@media screen and (orientation: portrait) {
+	.hello {
+		content: "screen and portrait!";
+	}
+}
+@media only screen and (orientation: landscape) {
+	.hello {
+		content: "only screen and landscape!";
+	}
+}
+```
+
+As above, you can specify multiple queries. GridUp will combine each with an `and`. Due to limitation in LESS, we do not currently support the `or` operator.
+
+### Sample Usage with multiple MQs present
+
+```less
+.create-mq(
+	screen screen,
+	only-screen "only screen"
+	portrait "(orientation: portrait)",
+	landscape "(orientation: landscape)"
+);
+
+#ios {
+	.create-mq(
+		iphone5 "(min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2)",
+		iphone6 "(min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)",
+		iphone6plus "(min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3)",
+		ipad "(min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2)"
+	);
+}
+
+#galaxy {
+	.create-mq(
+		s3 "(device-width: 320px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 2)",
+		s4 "(device-width: 320px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3)",
+		s5 "(device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3)",
+		tab "(min-device-width: 800px) and (max-device-width: 1280px)"
+	);
+}
+
+.mq(screen, {
+	#ios > .mq(iphone5, {
+		.hello {
+			content: "iPhone 5";
+		}
+	});
+});
+
+#galaxy > .mq(s5, {
+	.hello {
+		content: "Galaxy S5";
+	}
+});
+
+// Output:
+@media screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+	.hello {
+		content: "iPhone 5";
+	}
+}
+@media (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) {
+	.hello {
+		content: "Galaxy S5";
+	}
+}
+```
+
+## Breakpoint Media Queries (via `.breakpoint()` mixin)
 
 Can't remember your media query breakpoints? Don't worry, GridUp has it covered...
 
@@ -249,7 +379,7 @@ Can't remember your media query breakpoints? Don't worry, GridUp has it covered.
 });
 
 .nested {
-	.breakpoint(sm, {
+	.breakpoint(md, {
 		color: black;
 
 		&.blue {
@@ -265,16 +395,65 @@ Can't remember your media query breakpoints? Don't worry, GridUp has it covered.
 		}
 	});
 }
+
+// Output:
+@media (min-width: 48em) {
+	.blue {
+		color: blue;
+	}
+}
+@media (min-width: 62em) {
+	.nested {
+		color: black;
+	}
+	.nested.blue {
+		color: blue;
+	}
+	.nested.blue span {
+		color: green;
+	}
+	.nested span {
+		color: yellow;
+	}
+}
+```
+
+This breakpoint helper also provides extensions to your breakpoints:
+
+```less
+.breakpoint(sm-only, {
+	.hello {
+		content: "small screens only!";
+	}
+});
+
+.breakpoint(sm-max, {
+	.hello {
+		content: "up to small screens!";
+	}
+});
+
+// Output:
+@media (min-width: 48em) and (max-width: 61.99em) {
+	.hello {
+		content: "small screens only!";
+	}
+}
+@media (max-width: 61.99em) {
+	.hello {
+		content: "up to small screens!";
+	}
+}
 ```
 
 ## Custom Modules
 
 ```less
 .do-grids({
-	&color-blue { color: blue; }
-	&color-white { color: white; }
+	.color-blue { color: blue; }
+	.color-white { color: white; }
 
-	&bg- {
+	.bg- {
 		&blue { background-color: blue }
 		&white { background-color: white }
 	}
@@ -282,7 +461,7 @@ Can't remember your media query breakpoints? Don't worry, GridUp has it covered.
 ```
 
 ```html
-<div class="background-white md-bg-blue lg-bg-white">
+<div class="bg-white md-bg-blue lg-bg-white">
 	<div class="color-blue md-color-white lg-color-blue">Hello World</div>
 </div>
 ```
